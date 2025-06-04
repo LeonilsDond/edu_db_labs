@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+   <meta charset="UTF-8" />
+   <title>RESTfull Service</title>
+   <style>
+       body {
+           font-family: Arial, sans-serif;
+           max-width: 800px;
+           margin: 0 auto;
+           padding: 20px;
+       }
+       h2 {
+           margin-top: 30px;
+       }
+       .section {
+           border: 1px solid #ccc;
+           padding: 15px;
+           margin-bottom: 20px;
+           border-radius: 6px;
+       }
+       .section button {
+           margin: 5px 0;
+       }
+       .output {
+           background: #f9f9f9;
+           border: 1px solid #ddd;
+           padding: 10px;
+           margin-top: 10px;
+           white-space: pre-wrap;
+           font-family: Consolas, monospace;
+       }
+       label {
+           display: block;
+           margin: 5px 0 2px;
+       }
+       input[type="text"], input[type="number"], textarea {
+           width: 100%;
+           padding: 6px;
+           margin-bottom: 8px;
+           box-sizing: border-box;
+       }
+   </style>
+</head>
+<body>
+
+
+   <h1>RESTfull  Service</h1>
+
+
+   <div class="section">
+       <h2>Users</h2>
+
+
+       <button onclick="getUsers()">Отримати всіх користувачів</button>
+       <div id="users-list" class="output"></div>
+
+
+       <hr />
+
+
+       <label for="get-user-id">Отримати користувача за ID:</label>
+       <input type="number" id="get-user-id" placeholder="Наприклад, 1" />
+       <button onclick="getUserById()">Отримати одного користувача</button>
+       <div id="single-user" class="output"></div>
+
+
+       <hr />
+
+
+       <h3>Створити нового користувача</h3>
+       <label for="new-user-id">Введіть ID (ціле число):</label>
+       <input type="number" id="new-user-id" placeholder="4" />
+       <label for="new-user-email">Email:</label>
+       <input type="text" id="new-user-email" placeholder="newuser@gmail.com" />
+       <label for="new-user-last">Прізвище:</label>
+       <input type="text" id="new-user-last" placeholder="Петренко" />
+       <label for="new-user-first">Ім’я:</label>
+       <input type="text" id="new-user-first" placeholder="Петро" />
+       <label for="new-user-role">role_id:</label>
+       <input type="number" id="new-user-role" placeholder="3" />
+       <button onclick="createUser()">Створити</button>
+       <div id="create-user-output" class="output"></div>
+
+
+       <hr />
+
+
+       <h3>Оновити користувача</h3>
+       <label for="update-user-id">ID користувача для оновлення:</label>
+       <input type="number" id="update-user-id" placeholder="1" />
+       <label for="update-user-email">Новий email (залиште порожнім, якщо не потребує змін):</label>
+       <input type="text" id="update-user-email" placeholder="updated@example.com" />
+       <label for="update-user-last">Нове прізвище:</label>
+       <input type="text" id="update-user-last" placeholder="Новак" />
+       <label for="update-user-first">Нове ім’я:</label>
+       <input type="text" id="update-user-first" placeholder="Олег" />
+       <label for="update-user-role">Нове role_id:</label>
+       <input type="number" id="update-user-role" placeholder="2" />
+       <button onclick="updateUser()">Оновити</button>
+       <div id="update-user-output" class="output"></div>
+
+
+       <hr />
+
+
+       <label for="delete-user-id">ID користувача для видалення:</label>
+       <input type="number" id="delete-user-id" placeholder="3" />
+       <button onclick="deleteUser()">Видалити</button>
+       <div id="delete-user-output" class="output"></div>
+   </div>
+   
+   <div class="section">
+       <h2>Вікторини</h2>
+
+
+       <button onclick="getQuizzes()">Отримати всі вікторини</button>
+       <div id="quizzes-list" class="output"></div>
+
+
+       <hr />
+
+
+       <label for="get-quiz-id">ID вікторини для отримання:</label>
+       <input type="number" id="get-quiz-id" placeholder="1" />
+       <button onclick="getQuizById()">Отримати одну вікторину</button>
+       <div id="single-quiz" class="output"></div>
+
+
+       <hr />
+
+
+       <h3>Створити нову вікторину</h3>
+       <label for="new-quiz-id">ID (ціле число):</label>
+       <input type="number" id="new-quiz-id" placeholder="3" />
+       <label for="new-quiz-title">Title:</label>
+       <input type="text" id="new-quiz-title" placeholder="Нова вікторина" />
+       <label for="new-quiz-desc">Description:</label>
+       <textarea id="new-quiz-desc" placeholder="Опис вікторини"></textarea>
+       <label for="new-quiz-start">Start Date (YYYY-MM-DD):</label>
+       <input type="text" id="new-quiz-start" placeholder="2025-07-01" />
+       <label for="new-quiz-end">End Date (YYYY-MM-DD):</label>
+       <input type="text" id="new-quiz-end" placeholder="2025-07-10" />
+       <label for="new-quiz-status">Status:</label>
+       <input type="text" id="new-quiz-status" placeholder="Заплановано" />
+       <label for="new-quiz-category">category_id:</label>
+       <input type="number" id="new-quiz-category" placeholder="1" />
+       <button onclick="createQuiz()">Створити</button>
+       <div id="create-quiz-output" class="output"></div>
+
+
+       <hr />
+
+
+       <h3>Оновити вікторину</h3>
+       <label for="update-quiz-id">ID вікторини для оновлення:</label>
+       <input type="number" id="update-quiz-id" placeholder="1" />
+       <label for="update-quiz-title">Новий Title:</label>
+       <input type="text" id="update-quiz-title" placeholder="Оновлена вікторина" />
+       <label for="update-quiz-desc">Новий Description:</label>
+       <textarea id="update-quiz-desc" placeholder="Новий опис"></textarea>
+       <label for="update-quiz-start">Новий Start Date:</label>
+       <input type="text" id="update-quiz-start" placeholder="2025-06-05" />
+       <label for="update-quiz-end">Новий End Date:</label>
+       <input type="text" id="update-quiz-end" placeholder="2025-06-20" />
+       <label for="update-quiz-status">Новий Status:</label>
+       <input type="text" id="update-quiz-status" placeholder="Активно" />
+       <label for="update-quiz-category">Новий category_id:</label>
+       <input type="number" id="update-quiz-category" placeholder="2" />
+       <button onclick="updateQuiz()">Оновити</button>
+       <div id="update-quiz-output" class="output"></div>
+
+
+       <hr />
+
+
+       <label for="delete-quiz-id">ID вікторини для видалення:</label>
+       <input type="number" id="delete-quiz-id" placeholder="2" />
+       <button onclick="deleteQuiz()">Видалити</button>
+       <div id="delete-quiz-output" class="output"></div>
+   </div>
+
+
+
+
+   <script>
+       const API_BASE = '';
+
+
+       async function getUsers() {
+           const res = await fetch(`${API_BASE}/users`);
+           const data = await res.json();
+           document.getElementById('users-list').textContent = JSON.stringify(data, null, 2);
+       }
+
+
+       async function getUserById() {
+           const id = document.getElementById('get-user-id').value;
+           if (!id) {
+               alert('Вкажіть ID користувача');
+               return;
+           }
+           const res = await fetch(`${API_BASE}/users/${id}`);
+           if (res.ok) {
+               const data = await res.json();
+               document.getElementById('single-user').textContent = JSON.stringify(data, null, 2);
+           } else {
+               document.getElementById('single-user').textContent = `Користувача з ID=${id} не знайдено`;
+           }
+       }
+
+
+       async function createUser() {
+           const id = document.getElementById('new-user-id').value;
+           const email = document.getElementById('new-user-email').value;
+           const last_name = document.getElementById('new-user-last').value;
+           const first_name = document.getElementById('new-user-first').value;
+           const role_id = document.getElementById('new-user-role').value;
+
+
+           const payload = { id: parseInt(id), email, last_name, first_name, role_id: parseInt(role_id) };
+           const res = await fetch(`${API_BASE}/users`, {
+               method: 'POST',
+               headers: { 'Content-Type': 'application/json' },
+               body: JSON.stringify(payload)
+           });
+           const data = await res.json();
+           document.getElementById('create-user-output').textContent = JSON.stringify(data, null, 2);
+       }
+
+
+       async function updateUser() {
+           const id = document.getElementById('update-user-id').value;
+           if (!id) {
+               alert('Вкажіть ID користувача для оновлення');
+               return;
+           }
+           const email = document.getElementById('update-user-email').value;
+           const last_name = document.getElementById('update-user-last').value;
+           const first_name = document.getElementById('update-user-first').value;
+           const role_id = document.getElementById('update-user-role').value;
+
+
+           const payload = {};
+           if (email) payload.email = email;
+           if (last_name) payload.last_name = last_name;
+           if (first_name) payload.first_name = first_name;
+           if (role_id) payload.role_id = parseInt(role_id);
+
+
+           const res = await fetch(`${API_BASE}/users/${id}`, {
+               method: 'PUT',
+               headers: { 'Content-Type': 'application/json' },
+               body: JSON.stringify(payload)
+           });
+           if (res.ok) {
+               const data = await res.json();
+               document.getElementById('update-user-output').textContent = JSON.stringify(data, null, 2);
+           } else {
+               document.getElementById('update-user-output').textContent = `Не вдалося оновити користувача з ID=${id}`;
+           }
+       }
+
+
+       async function deleteUser() {
+           const id = document.getElementById('delete-user-id').value;
+           if (!id) {
+               alert('Вкажіть ID користувача для видалення');
+               return;
+           }
+           const res = await fetch(`${API_BASE}/users/${id}`, {
+               method: 'DELETE'
+           });
+           if (res.ok) {
+               document.getElementById('delete-user-output').textContent = `Користувач з ID=${id} успішно видалений`;
+           } else {
+               document.getElementById('delete-user-output').textContent = `Не вдалося видалити користувача з ID=${id}`;
+           }
+       }
+
+
+
+
+       async function getQuizzes() {
+           const res = await fetch(`${API_BASE}/quizzes`);
+           const data = await res.json();
+           document.getElementById('quizzes-list').textContent = JSON.stringify(data, null, 2);
+       }
+
+
+       async function getQuizById() {
+           const id = document.getElementById('get-quiz-id').value;
+           if (!id) {
+               alert('Вкажіть ID вікторини');
+               return;
+           }
+           const res = await fetch(`${API_BASE}/quizzes/${id}`);
+           if (res.ok) {
+               const data = await res.json();
+               document.getElementById('single-quiz').textContent = JSON.stringify(data, null, 2);
+           } else {
+               document.getElementById('single-quiz').textContent = `Вікторина з ID=${id} не знайдена`;
+           }
+       }
+
+
+       async function createQuiz() {
+           const id = document.getElementById('new-quiz-id').value;
+           const title = document.getElementById('new-quiz-title').value;
+           const description = document.getElementById('new-quiz-desc').value;
+           const start_date = document.getElementById('new-quiz-start').value;
+           const end_date = document.getElementById('new-quiz-end').value;
+           const status = document.getElementById('new-quiz-status').value;
+           const category_id = document.getElementById('new-quiz-category').value;
+
+
+           const payload = {
+               id: parseInt(id),
+               title,
+               description,
+               start_date,
+               end_date,
+               status,
+               category_id: parseInt(category_id)
+           };
+
+
+           const res = await fetch(`${API_BASE}/quizzes`, {
+               method: 'POST',
+               headers: { 'Content-Type': 'application/json' },
+               body: JSON.stringify(payload)
+           });
+           const data = await res.json();
+           document.getElementById('create-quiz-output').textContent = JSON.stringify(data, null, 2);
+       }
+
+
+       async function updateQuiz() {
+           const id = document.getElementById('update-quiz-id').value;
+           if (!id) {
+               alert('Вкажіть ID вікторини для оновлення');
+               return;
+           }
+           const title = document.getElementById('update-quiz-title').value;
+           const description = document.getElementById('update-quiz-desc').value;
+           const start_date = document.getElementById('update-quiz-start').value;
+           const end_date = document.getElementById('update-quiz-end').value;
+           const status = document.getElementById('update-quiz-status').value;
+           const category_id = document.getElementById('update-quiz-category').value;
+
+
+           const payload = {};
+           if (title) payload.title = title;
+           if (description) payload.description = description;
+           if (start_date) payload.start_date = start_date;
+           if (end_date) payload.end_date = end_date;
+           if (status) payload.status = status;
+           if (category_id) payload.category_id = parseInt(category_id);
+
+
+           const res = await fetch(`${API_BASE}/quizzes/${id}`, {
+               method: 'PUT',
+               headers: { 'Content-Type': 'application/json' },
+               body: JSON.stringify(payload)
+           });
+           if (res.ok) {
+               const data = await res.json();
+               document.getElementById('update-quiz-output').textContent = JSON.stringify(data, null, 2);
+           } else {
+               document.getElementById('update-quiz-output').textContent = `Не вдалося оновити вікторину з ID=${id}`;
+           }
+       }
+
+
+       async function deleteQuiz() {
+           const id = document.getElementById('delete-quiz-id').value;
+           if (!id) {
+               alert('Вкажіть ID вікторини для видалення');
+               return;
+           }
+           const res = await fetch(`${API_BASE}/quizzes/${id}`, {
+               method: 'DELETE'
+           });
+           if (res.ok) {
+               document.getElementById('delete-quiz-output').textContent = `Вікторина з ID=${id} успішно видалена`;
+           } else {
+               document.getElementById('delete-quiz-output').textContent = `Не вдалося видалити вікторину з ID=${id}`;
+           }
+       }
+   </script>
+
+
+</body>
+</html>
