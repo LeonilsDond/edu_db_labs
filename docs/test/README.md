@@ -9,7 +9,7 @@
 ## Put+delete
 ![putdelete](https://github.com/LeonilsDond/edu_db_labs/blob/master/docs/test/put+delete.jpg?raw=true)
 
-##Quizzes, get+request 
+##Quizzes
 ![getrequest](https://github.com/LeonilsDond/edu_db_labs/blob/master/docs/test/getvictorina.jpg?raw=true)
 
 ## Post quizzes
